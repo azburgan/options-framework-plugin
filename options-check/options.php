@@ -298,4 +298,57 @@ function optionsframework_options() {
 		'settings' => $wp_editor_settings );
 
 	return $options;
+	1
+/*
+2
+ * Helper function to return the theme option value. If no value has been saved, it returns $default.
+3
+ * Needed because options are saved as serialized strings.
+4
+ *
+5
+ * This code allows the theme to work without errors if the Options Framework plugin has been disabled.
+6
+ */
+7
+ 
+8
+if ( !function_exists( 'of_get_option' ) ) {
+9
+function of_get_option($name, $default = false) {
+10
+     
+11
+    $optionsframework_settings = get_option('optionsframework');
+12
+     
+13
+    // Gets the unique option id
+14
+    $option_name = $optionsframework_settings['id'];
+15
+     
+16
+    if ( get_option($option_name) ) {
+17
+        $options = get_option($option_name);
+18
+    }
+19
+         
+20
+    if ( isset($options[$name]) ) {
+21
+        return $options[$name];
+22
+    } else {
+23
+        return $default;
+24
+    }
+25
+}
+26
+}
+
 }
